@@ -113,7 +113,7 @@
 <meta property="og:image" content="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/arcgis_publish_12.jpg">
 <meta property="og:image" content="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/arcgis_publish_13.jpg">
 <meta property="og:image" content="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/arcgis_publish_14.jpg">
-<meta property="og:updated_time" content="2016-04-20T15:07:14.203Z">
+<meta property="og:updated_time" content="2016-04-21T02:00:12.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="arcgis安装与地图发布">
 <meta name="twitter:description" content="工作中经常用到地图服务，最早用的google map，后来由于众所周知的原因没法用了，后来改用了arcgis；每次有一个新项目就需要发布一个新的地图，一般都是我来发布，其他同事也很少去做这个事情，碰到自己忙的时候就会耽误事了。这几天趁着有点时间，打算把arcgis的安装过程和地图服务的发布过程写下来，这样大家如果想自己试试，可以参考学习。">
@@ -351,7 +351,7 @@
 <li>Arcgis Desktop：ArcGIS_Desktop10_122519</li>
 <li>license.ecp</li>
 </ul>
-<p>Arcgis的介质均为10.0版本，如有需要，可以找我索取，Email:<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#120;&#x69;&#101;&#x79;&#102;&#48;&#x34;&#x31;&#51;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#120;&#x69;&#101;&#x79;&#102;&#48;&#x34;&#x31;&#51;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a>。</p>
+<p>Arcgis的介质均为10.0版本，如有需要，可以找我索取，Email:<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#120;&#105;&#101;&#x79;&#x66;&#48;&#x34;&#49;&#51;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#120;&#105;&#101;&#x79;&#x66;&#48;&#x34;&#49;&#51;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;</a>。</p>
 <h1 id="arcgis安装过程"><a href="#arcgis安装过程" class="headerlink" title="arcgis安装过程"></a>arcgis安装过程</h1><h2 id="Arcgis-Server安装"><a href="#Arcgis-Server安装" class="headerlink" title="Arcgis Server安装"></a>Arcgis Server安装</h2><p>一.解压缩ArcGIS_Server_Java_Edition.rar，执行其中的setup.exe文件；<br>二.点击下一步：</p>
 <p><img src="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/arcgis_server_1.jpg" alt="arcgis install picture"></p>
 <p>三.接受协议：</p>
@@ -483,9 +483,9 @@
 <p>五.重启完等待一小会儿，%your ArcGIS Instal Directory%\Server10.0\java\manager\web_output\web目录下应该生成了rest的一个子目录；</p>
 <p>六.打开rest服务的地址，<a href="http://ip:8399/rest/services，可以看到已经发布的rest服务，大功告成。" target="_blank" rel="external">http://ip:8399/rest/services，可以看到已经发布的rest服务，大功告成。</a></p>
 <h1 id="安全沙箱问题"><a href="#安全沙箱问题" class="headerlink" title="安全沙箱问题"></a>安全沙箱问题</h1><p>如果在访问地图时出现安全沙箱的错误，请按照如下方法解决：</p>
-<p>一.生成Crossdomain.xml文件，内容如下 ：</p>
+<p>一.生成crossdomain.xml文件，内容如下 ：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE cross-domain-policy SYSTEM &quot;http://www.adobe.com/xml/dtds/cross-domain-policy.dtd&quot;&gt;</span><br><span class="line">&lt;cross-domain-policy&gt;</span><br><span class="line">&lt;site-control permitted-cross-domain-policies=&quot;all&quot;/&gt;</span><br><span class="line">&lt;allow-access-from domain=&quot;*&quot;/&gt;</span><br><span class="line">&lt;/cross-domain-policy&gt;</span><br></pre></td></tr></table></figure>
-<p>二.拷贝Crossdomain.xml到%your ArcGIS Instal Directory%\Server10.0\java\manager\web_output目录下。</p>
+<p>二.拷贝crossdomain.xml到%your ArcGIS Instal Directory%\Server10.0\java\manager\web_output目录下。</p>
 
       
     </div>
