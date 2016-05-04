@@ -1,0 +1,990 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="字符集,编码,charactor set,encoding,UTF-8,Unicode,ASCII," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="其实之前对这个字符集啊、编码啊之类的东西也是似懂非懂，也算了解过一些，但是有时候碰到问题——大多数应该是乱码问题——还是搞不定，这不，问题又出来了，折腾了好几天，最后还是乱码的问题。看着好像问题是不大，但是解决起来头很大，耗时有耗力。所以这次打算把计算机中关于字符集和编码的相关内容一起系统学习一下，在这里也算是做个记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符集和编码格式的那些事儿">
+<meta property="og:url" content="http://yoursite.com/2016/05/01/charactor_set_and_encoding/index.html">
+<meta property="og:site_name" content="大道至简">
+<meta property="og:description" content="其实之前对这个字符集啊、编码啊之类的东西也是似懂非懂，也算了解过一些，但是有时候碰到问题——大多数应该是乱码问题——还是搞不定，这不，问题又出来了，折腾了好几天，最后还是乱码的问题。看着好像问题是不大，但是解决起来头很大，耗时有耗力。所以这次打算把计算机中关于字符集和编码的相关内容一起系统学习一下，在这里也算是做个记录。">
+<meta property="og:image" content="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/charset_encoding_nodepad1.jpg">
+<meta property="og:updated_time" content="2016-05-04T02:23:47.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符集和编码格式的那些事儿">
+<meta name="twitter:description" content="其实之前对这个字符集啊、编码啊之类的东西也是似懂非懂，也算了解过一些，但是有时候碰到问题——大多数应该是乱码问题——还是搞不定，这不，问题又出来了，折腾了好几天，最后还是乱码的问题。看着好像问题是不大，但是解决起来头很大，耗时有耗力。所以这次打算把计算机中关于字符集和编码的相关内容一起系统学习一下，在这里也算是做个记录。">
+<meta name="twitter:image" content="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/charset_encoding_nodepad1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 字符集和编码格式的那些事儿 | 大道至简 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">大道至简</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                字符集和编码格式的那些事儿
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-01T19:40:09+08:00" content="2016-05-01">
+              2016-05-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/计算机/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/01/charactor_set_and_encoding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/01/charactor_set_and_encoding/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其实之前对这个字符集啊、编码啊之类的东西也是似懂非懂，也算了解过一些，但是有时候碰到问题——大多数应该是乱码问题——还是搞不定，这不，问题又出来了，折腾了好几天，最后还是乱码的问题。看着好像问题是不大，但是解决起来头很大，耗时有耗力。所以这次打算把计算机中关于字符集和编码的相关内容一起系统学习一下，在这里也算是做个记录。</p>
+<a id="more"></a>
+<h1 id="常见字符集和编码"><a href="#常见字符集和编码" class="headerlink" title="常见字符集和编码"></a>常见字符集和编码</h1><p>好了，咱们还是从最基础的ASCII码开始说吧。。。。。</p>
+<h2 id="ASCII码和扩展ASCII码"><a href="#ASCII码和扩展ASCII码" class="headerlink" title="ASCII码和扩展ASCII码"></a>ASCII码和扩展ASCII码</h2><blockquote>
+<p><strong><font color="red">ASCII，全称：American Standard Code for Information Interchange，中文全称：美国标准交换信息代码</font></strong> </p>
+</blockquote>
+<p>我们知道，计算机来源于美国，美国使用英语（这都是废话。。。），所以人家老美当时在考虑计算机怎么存储这个问题的时候压根就没考虑中文、法语、日本语。。。压根也没想到这些第三世界的贫穷人民也能用上计算机。。。。所以，后来，后来问题就出来了。</p>
+<p>咱们还是先学学历史吧，看看当时老美是怎么想的，怎么弄出来的ASCII码。</p>
+<p>学过计算机的同学都知道，在计算机内部，只有0和1两种状态，称为一个二进制位（也就是bit），一个字节（byte）由8个bit组成，从00000000到11111111共有256种组合，可以代表256个含义。</p>
+<p>老美一想，我们平时用的就是26个英文字母，再加上一些标点符号和特殊符号啥的，也没多少个，256个肯定够用了，后来再一算，连128个也没有（真是弱爆了，看看我们的中文。。。）。好吧，既然只有这么多了，我们就用1个字节的8位来表示这些字符吧，第1位用0占着，后边7位依次排。。。好了，ASCII码诞生了。</p>
+<p>比如 ：数字1的ASCII码为：00110001（10进制数字49）</p>
+<p>​             字母A的ASCII码为：01000001（10进制数字65）</p>
+<p>​             字母a的ASCII码为：01100001（10进制数字97）</p>
+<p>很完美吧，美国人民沉浸在计算机的欢乐海洋中。。。</p>
+<p>“我要抗议，我要抗议。。。”什么情况 ？原来英国人民不愿意了、法国人民不愿意了。。。这些美国的同盟们生气了（这时候第三世界的人民大多数还没听说过计算机呢。。。），气什么呢？原来啊，英国人民说他们的英镑符号（￡）找不到。。。法国人民说我们的重音呢？好嘛，这下热闹了，老美头也大了。。。（其实心里想着，当时没想你们的事啊）</p>
+<p>问题出来了，总得解决，说，好吧，你那1个byte不是还空着一半嘛，分我们用吧，反正我们也没有那么多，剩下的128肯定也够用了，这样就可以解决问题了（老美心里老不乐意了，我这儿留着也不是给你们用的啊。。。），不管怎么说，总算是一个办法。这就是后来扩展的ASCII码。</p>
+<p>但是吧，这个办法真不咋地，你想啊，世界上这么多国家，这么多语言，先不说中文汉字那些问题，英国从10进制128开始要定义自己的字符，法国也要从128开始定义自己的字符，俄罗斯也要从128开始。。。。这事闹大了，那到底130（或者145、或者其它数字）到底代表的哪个字符啊？就不唯一了啊，乱了，真是乱了。。。</p>
+<p>到此为止，ASCII码已经没法再扩展了，它只有8位，代表不了那么多的字符。虽然如此，ASCII码的历史地位已经非常重要了，再后来新定义的其它字符集虽然很强大，但是其中表示的最基础的26个英文字母和字符和ASCII码是保持一致的。更重要的是，ASCII码是那么定义的，它在计算机里边也是真实那么存储的。这句许好像有点废话。。。。到后边再解释吧。</p>
+<h2 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h2><p>是时候登场了。。。</p>
+<blockquote>
+<p><strong><font color="color">Unicode（英文：Universal Multiple-Octet Coded Character Set ，直译：通用多八位编码字符集，中文：万国码、国际码、统一码、单一码）是计算机领域的一项业界标准，是统一码联盟（英语：The Unicode Consortium）制定的可以容纳世界上所有文字和符号的字符集方案。它为每种语言中的每个字符设定了统一并且唯一的二进制编码，以满足跨语言、跨平台进行文本转换、处理的要求。</font></strong> </p>
+</blockquote>
+<p>Unicode并不涉及字符是怎么在字节中表示的，只是一个用来映射字符和数字的标准。它对支持字符的数量没有限制，也不要求字符必须占两个、三个或者其它任意数量的字节。</p>
+<font color="red">误区：Unicode支持的字符上限是65536个，Unicode字符必须占两个字节。</font>
+
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U+597D，表示中文汉字---好</span><br></pre></td></tr></table></figure>
+<p>说完了，Unicode就负责这么点事，别的它不管。。。</p>
+<p>==，别的？别的还有什么事？还记得在上一节中说的那句废话吗？<strong> ASCII码是那么定义的，它在计算机里边也是真实那么存储的 </strong>，就是这句废话。看出来还有什么事了吗？对，还真有一件事，就是存储的事。</p>
+<p>Unicode只定义了世界上的字符（如英文、汉字、或者日文字、韩文字等等）用什么数字来对应，压根没说它在计算机里边怎么存储（好像又是句废话。。。），存储的事不是它的职责范围。</p>
+<p>莫非中文汉字”好”，Unicode是597D，在计算机里边不是用对应的二进制存进去的？？还真不一定是。。。</p>
+<h2 id="UTF-8编码"><a href="#UTF-8编码" class="headerlink" title="UTF-8编码"></a>UTF-8编码</h2><h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>终于该咱们最熟悉的UTF系统上场了。。。（看清楚了，不是UFO）</p>
+<p>上回说到，Unicode只管字符和数字的对应，不管计算机里边怎么存储，那么谁来负责呢？</p>
+<p>说到这儿，咱们先来想一下，Unicode有好处，而且还很明显，那么它有什么劣处吗？有同学已经想到了，那就是对于英文世界的计算机来说，Unicode太浪费空间了，因为所有的英文字符和很多的英文符号都是一个字节就能存储下的（就是ASCII里边127以下的那些），直接翻番了，这是不能够容忍的。肿么办，肿么办。。。</p>
+<p>UTF-8（UnicodeTransformationFormat-8bit）是一种编码方式（Encoding format），不是一种字符集，它是为了解决Unicode存储、传输、解析而诞生的。</p>
+<p>上一章节也说到了，Unicode只负责定义字符和数字的对应关系，存储的事儿它不管。那总得有人管，要不然怎么存储。UTF-8说，那好吧，我来管。其实还有UTF-16、UTF-32等其它编码方式，悄悄告诉你，ASCII也是一种编码方式。</p>
+<h3 id="UTF-8工作原理"><a href="#UTF-8工作原理" class="headerlink" title="UTF-8工作原理"></a>UTF-8工作原理</h3><p>UTF-8用1~4个字节对Unicode进行编码。从Unicode到UTF-8的编码方式如下：</p>
+<p>UTF-8编码的最大长度是4个字节。从上表可以看出，4字节模板有21个x，即可以容纳21位二进制数字。Unicode的最大码位0x10FFFF也只有21位。</p>
+<p>UTF-8解析算法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 如果字节(Byte)的第一位为0，则B为ASCII码，并且Byte独立的表示一个字符; </span><br><span class="line">2. 如果字节(Byte)的前两位为1，第三位为0，则Byte为一个非ASCII字符（该字符由多个字节表示）中的第 一个字节，并且该字符由两个字节表示; </span><br><span class="line">3. 如果字节(Byte)的前三位为1，第四位为0，则Byte为一个非ASCII字符（该字符由多个字节表示）中的第一个字节，并且该字符由三个字节表示; </span><br><span class="line">4. 如果字节(Byte)的前四位为1，第五位为0，则Byte为一个非ASCII字符（该字符由多个字节表示）中的第一个字节，并且该字符由四个字节表示</span><br></pre></td></tr></table></figure>
+<p>举个例子来说吧：</p>
+<p>中文字：谢，对应的Unicode为：U+8c22，对应的二进制为：1000110000100010；</p>
+<p>对照上边的编码方式，可以看出落在了第三行；因此它的UTF-8编码需要三个字节，格式为：1110xxxx 10xxxxxx 10xxxxxx；</p>
+<p>用8c22的二进制编码从后向前依次补充格式中的x，得到的结果为：11101000 10110000 10100010，16进制编码为：E8B0A2</p>
+<h3 id="UTF-32编码"><a href="#UTF-32编码" class="headerlink" title="UTF-32编码"></a>UTF-32编码</h3><p>UTF-32编码是固定用4个字节来表示，优点缺点都很明显：</p>
+<ol>
+<li>优点：容易识别，规则简单，Unicode如果位数不够，直接前边补0即可；</li>
+<li>缺点：太占用空间，全部用4个字节；</li>
+</ol>
+<p>所以，这种编码格式使用的人较少，HTML5也明文规定不得使用UTF-32。</p>
+<h3 id="UTF-16编码"><a href="#UTF-16编码" class="headerlink" title="UTF-16编码"></a>UTF-16编码</h3><p>UTF-16编码用2个字节或者4个字节来表示，编码规则如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">----Unicode(16进制)----║---UTF-8(字节数)---</span><br><span class="line">0x0000 - 0xFFFF        ║    2</span><br><span class="line">0x010000 - 0x10FFFF    ║    4</span><br></pre></td></tr></table></figure>
+<p>UTF-16解析算法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 如果Unicode小于0x010000,那么对应的UTF-16和Unicode一样；</span><br><span class="line">2. 如果Unicode大于0x010000，且小于0x10FFFF，刚好是20位，那么就把它的前10位映射到U+D800到U+DBFF，后10位映射到U+DC00到U+DFFF；</span><br><span class="line">3. 如果Unicode大于0xFFFF，不能用UTF-16表示；</span><br></pre></td></tr></table></figure>
+<h2 id="GB2312、GBK、GB18030"><a href="#GB2312、GBK、GB18030" class="headerlink" title="GB2312、GBK、GB18030"></a>GB2312、GBK、GB18030</h2><h3 id="GB2312"><a href="#GB2312" class="headerlink" title="GB2312"></a>GB2312</h3><blockquote>
+<p><strong><font color="red"> GB 2312 或 GB 2312-80 是中国国家标准简体中文字符集，全称《信息交换用汉字编码字符集·基本集》，又称GB0，由中国国家标准总局发布，1981年5月1日实施。GB2312编码通行于中国大陆；新加坡等地也采用此编码。中国大陆几乎所有的中文系统和国际化的软件都支持GB 2312。GB 2312标准共收录6763个汉字，其中一级汉字3755个，二级汉字3008个；同时收录了包括拉丁字母、希腊字母、日文平假名及片假名字母、俄语西里尔字母在内的682个字符。</font></strong> </p>
+</blockquote>
+<h4 id="GB2312编码规则"><a href="#GB2312编码规则" class="headerlink" title="GB2312编码规则"></a>GB2312编码规则</h4><p>GB2312用两个字节来表示，第一个字节称为区码， 第二个字节称为位码，这种方式也称为区位码。</p>
+<p>区码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">01-09区为特殊符号；对应的16进制为：0x01-0x01</span><br><span class="line">16-55区为一级汉字，按拼音排序；对应的16进制为：0xF1-0x37</span><br><span class="line">56-87区为二级汉字，按部首/笔划排序；对应的16进制为：0x38-0x57</span><br><span class="line">10-15区及88-94区未编码</span><br></pre></td></tr></table></figure>
+<p>位码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">按照人为事先定义好的顺序排列即可，比如“啊”的码排第一，就是0x01；</span><br><span class="line">“阿”的码排第二，就是0x02；</span><br></pre></td></tr></table></figure>
+<ol>
+<li>作用：国家简体中文字符集，兼容ASCII。</li>
+<li>位数：使用2个字节表示，能表示7445个符号，包括6763个汉字，几乎覆盖所有高频率汉字。</li>
+<li>范围：高字节从A1到F7, 低字节从A1到FE。将高字节和低字节分别加上0XA0即可得到编码。</li>
+</ol>
+<h4 id="GB2312编码表"><a href="#GB2312编码表" class="headerlink" title="GB2312编码表"></a>GB2312编码表</h4><p><a href="http://www.knowsky.com/resource/gb2312tbl.htm" target="_blank" rel="external">http://www.knowsky.com/resource/gb2312tbl.htm</a></p>
+<h3 id="GBK"><a href="#GBK" class="headerlink" title="GBK"></a>GBK</h3><blockquote>
+<p><strong><font color="red">GBK即汉字内码扩展规范，K为汉语拼音Kuo Zhan（扩展）中“扩”字的声母。英文全称Chinese Internal Code Specification。GBK共收入21886个汉字和图形符号，包括：GB2312中的全部汉字、非汉字符号。BIG5中的全部汉字。与ISO 10646相应的国家标准GB13000中的其它CJK汉字，以上合计20902个汉字。其它汉字、部首、符号，共计984个。GBK向下与GB2312完全兼容，向上支持ISO 10646国际标准，在前者向后者过渡过程中起到的承上启下的作用。</font></strong></p>
+</blockquote>
+<ol>
+<li>作用：它是GB2312的扩展，加入对繁体字的支持，兼容GB2312。</li>
+<li>位数：使用2个字节表示，可表示21886个字符。</li>
+<li>范围：高字节从81到FE，低字节从40到FE。</li>
+</ol>
+<p>注意：兼容GB2312是什么意思？上边还有一个GB2312兼容ASCII什么意思？</p>
+<p>咱们看一下GBK中的高字节范围是从81开始的，那么问一下0-80的跑哪儿去了？没错，0-80换算成10进制刚好是0-128，恰恰是ASCII码中的数值。在GB2312或者GBK或者后边说的GB18030中，ASCII中的所有字符都是用一个字节表示的，这也就是你为什么从来没有见过英文字母和阿拉伯数字出现乱码的原因，在咱们常见的编码系统中，它们都是兼容ASCII码的，碰到ASCII中的这些字符无论哪种编码都能正常解析出来。</p>
+<h3 id="GB18030"><a href="#GB18030" class="headerlink" title="GB18030"></a>GB18030</h3><blockquote>
+<p><strong><font color="red">GB 18030，全称：国家标准GB 18030-2005《信息技术中文编码字符集》，是中华人民共和国现时最新的内码字集，是GB 18030-2000《信息技术信息交换用汉字编码字符集基本集的扩充》的修订版。GB 18030与GB 2312-1980完全兼容，与GBK基本兼容，支持GB 13000及Unicode的全部统一汉字，共收录汉字70244个。与 UTF-8 相同，采用多字节编码，每个字可以由1个、2个或4个字节组成。编码空间庞大，最多可定义161万个字符。支持中国国内少数民族的文字，不需要动用造字区。汉字收录范围包含繁体汉字以及日韩汉字。</font></strong></p>
+</blockquote>
+<ol>
+<li>作用：它解决了中文、日文、朝鲜语等的编码，兼容GBK。</li>
+<li>位数：它采用变字节表示(1 ASCII，2，4字节)。可表示27484个文字。</li>
+<li>范围：1字节从00到7F; 2字节高字节从81到FE，低字节从40到7E和80到FE；4字节第一三字节从81到FE，第二四字节从30到39。</li>
+</ol>
+<h2 id="big5"><a href="#big5" class="headerlink" title="big5"></a>big5</h2><blockquote>
+<p><strong><font color="red">大五码（Big5），又称为大五码或者五大码，是通行于台湾、香港地区的一个繁体字编码方案。地区标准号为：CNS11643，这就是人们讲的BIG-5码。大五码是使用繁体中文社群中最常用的电脑汉字字符集标准，共收录13,060个中文字，其中有二字为重覆编码，Big5属中文内码（中文码分为中文内码及中文交换码两类）。</font></strong></p>
+</blockquote>
+<ol>
+<li>作用：统一繁体字编码。</li>
+<li>位数：使用2个字节表示，表示13053个汉字。</li>
+<li>范围：高字节从A1到F9，低字节从40到7E，A1到FE。</li>
+</ol>
+<h2 id="ISO-88591-1"><a href="#ISO-88591-1" class="headerlink" title="ISO-88591-1"></a>ISO-88591-1</h2><blockquote>
+<p><strong><font color="red">ISO/IEC8859-1，又称Latin-1或“西欧语言”，是国际标准化组织内ISO/IEC 8859的第一个8位字符集。它以ASCII为基础，在空置的0xA0-0xFF的范围内，加入96个字母及符号，藉以供使用变音符号的拉丁字母语言使用。</font></strong></p>
+</blockquote>
+<ol>
+<li>作用：扩展ASCII，表示西欧、希腊语等。</li>
+<li>位数：8位，</li>
+<li>范围：从00到FF，兼容ASCII字符集。</li>
+</ol>
+<h2 id="ANSI编码"><a href="#ANSI编码" class="headerlink" title="ANSI编码"></a>ANSI编码</h2><p>ANSI（American National Standards Institute），中文：美国国家标准学会。</p>
+<blockquote>
+<p><strong><font color="red">不同的国家和地区制定了不同的标准，由此产生了 GB2312、GBK、GB18030、Big5、Shift_JIS 等各自的编码标准。这些使用多个字节来代表一个字符的各种汉字延伸编码方式，称为 ANSI 编码。在简体中文Windows操作系统中，ANSI 编码代表 GBK 编码；在繁体中文Windows操作系统中，ANSI编码代表Big5；在日文Windows操作系统中，ANSI 编码代表 Shift_JIS 编码。</font></strong></p>
+</blockquote>
+<h1 id="编辑器是如何工作的"><a href="#编辑器是如何工作的" class="headerlink" title="编辑器是如何工作的"></a>编辑器是如何工作的</h1><p>上一章节说的内容，都是各个国家标准化组织做的事情，他们只负责制定标准。</p>
+<p>下边说说软件厂家做的工作都有哪些。</p>
+<p>说之前，咱们先来想个问题，假如现在有一个txt的文本文件：</p>
+<ol>
+<li>你能分辨出来这个文件的编码格式吗？</li>
+<li>那些编辑器（如windows的记事本、UltraEdit）在打开这个txt文件的时候能区分出来这个文件的编码格式吗？</li>
+</ol>
+<p>两个答案分别是：</p>
+<ol>
+<li>有些人能，有些人不能。。。（好像是废话）</li>
+<li>有些能，有些不能。。。（这句是废话吗？）</li>
+</ol>
+<p>下边，咱们开始说编辑器的工作过程，看看保存和打开时都干了哪些事：</p>
+<p>咱们先试试windows自带的记事本，打开随便输入一些信息，然后点保存，弹出如下对话框：</p>
+<p><img src="http://i1055.photobucket.com/albums/s507/tony_0413/hexoblog/2016/charset_encoding_nodepad1.jpg" alt="nodepad save picture"></p>
+<p>看到了吧，可以保存成4种编码格式，分别是：</p>
+<ol>
+<li>ANSI：ASNI是操作系统默认的编码格式，不同国家和语言对应的也不相同，对于在中国的简体中文而言是GBK，对于英文国家就是ASCII，对于繁体中文就是BIG5。</li>
+<li>Unicode编码指的是UCS-2编码方式，即直接用两个字节存入字符的Unicode码。这个选项用的little endian格式。</li>
+<li>Unicode big endian编码与第二种编码格式相对应。</li>
+<li>UTF-8编码。</li>
+</ol>
+<p>在这里我们可以尝试写一个文件（比如就写两个汉字“移动”），分别保存成这4种编码格式，看看能看出什么区别吗？</p>
+<p>再次用记事本打开，好像没啥区别。。。</p>
+<p>那我们换个编辑器，用UltraEdit打开，好像也没啥区别。。。</p>
+<p>别急，咱们看看它的16进制是怎么保存的（UltraEdit可以查看文件的16进制编码）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ANSI：D2 C6 B6 AF （移动两个字的GBK编码是分别是D2C6、B6AF）</span><br><span class="line">Unicode：FF FE FB 79 A8 52  （移动两个字的Unicode码是分别是FB79、A852，前边的FF和FE是什么）</span><br><span class="line">Unicode big endian：FE FF 79 FB 52 A8 （好像和Unicode一样啊，就是顺序相反）</span><br><span class="line">UTF-8：EF BB BF E7 A7 BB E5 8A A8 （移动两个字的UTF-8编码是分别是E7A7BB、E58AA8，前边的EF、BB、BF是什么）</span><br></pre></td></tr></table></figure>
+<p>看出来了吧，保存的二进制是不一样的。</p>
+<ol>
+<li>ASNI（也就是GBK）最好理解，直接存储BGK编码；</li>
+<li>Unicode（其实是Unicode little endian，Unicode前边说过它自己只是字符集，非编码方式 ，这里边的Unicode little endian指的是IOS标准中的USC-2编码方式 ，它最简单直接存储Unicode编码）除了本身的Unicode码外还额外在最前边存储了FF FE两个字节，它表示小头方式存储，也就是FB在前79在后，A8在前52在后；</li>
+<li>Unicode big endian也好理解了，前边的额外两个字节是FE FF，表示大头方式存储，也就是79在前FB在后，52在前A8在后；</li>
+<li>UTF-8编码在前边存储了EF BB BF，这三个字节无实际意义，就是为了标识当前是UTF-8的编码方式；</li>
+</ol>
+<p>刚才提到的“FF FE”、”FE FF”、”EF BB BF”都是指的信息头，用来标识自己是哪种编码格式的，如果所有的编码格式都带有不同的信息头，这样编辑器不就可以很容易分清了吗？确实是这样，但是“理想很丰满,现实很骨感”，一部分编码的信息头不是强制要求的，比如Unicode(little endian)的信息头就不是必须有的，UTF-8也可以保存成没有信息头的（在UltraEdit里边就可以这么做）；还有一部分编码是压根就没有信息头的，比如GBK。</p>
+<p>所以，就有了上边提到的问题，编辑器能够区分出文件是属于哪种编码格式吗？好像是可以的，是吧，你看刚才输入“移动”，4种编码格式都能正确识别，也没有乱码。嗯，好像是可以的。试完了“移动”，咱们要不试试“联通”？保存完，再用记事本打开看看？</p>
+<h1 id="字符集和编码的各种使用场景"><a href="#字符集和编码的各种使用场景" class="headerlink" title="字符集和编码的各种使用场景"></a>字符集和编码的各种使用场景</h1><h2 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h2><ol>
+<li><p>JVM内部的String，Char都是用unicode存储(没有任何编码)；</p>
+<p>例如：汉字“谢”，Unicode码为：U+8c22，那么在java中定义一个String a = “谢”，a的存储内容就是0x8c22；</p>
+</li>
+<li><p>getBytes()方法：</p>
+<ul>
+<li>Byte[] array = a.getBytes(“UTF-8”);  执行后array = [0xE8,0xB0,0xA2]；转换成UTF-8后的16进制编码；</li>
+<li>Byte[] array = a.getBytes(“GBK”); 执行后array = [0xD0,0xBB]；转换成GBK后的16进制编码；</li>
+<li>Byte[] array = a.getBytes();  执行后array = [0xE8,0xB0,0xA2]；如果不指定编码格式 ，则会使用系统默认编码格式；windows下，会使用eclipse（如果ide是eclipse的话）指定的编码格式；linux下如查LANG=en_US，则为ISO8599-1；</li>
+</ul>
+</li>
+<li><p>String str = new String(Byte[] b[] , String encoding)：</p>
+<ul>
+<li>String str = new String([0xE8,0xB0,0xA2] , “UTF-8”);执行后str = “谢”，存储Unicode为U+8c22；</li>
+<li>String str = new String([0xD0,0xBB] , “GBK”);执行后str = “谢”，存储Unicode为U+8c22；</li>
+</ul>
+</li>
+<li><p>System.getProperty(“file.encoding”)</p>
+<p>file.encoding从哪来的？谁设置的？</p>
+<p>如果在IDE中启动，那么会用使用IDE中设置的file.encoding；如果脱离IDE，则会使用操作系统的默认编码格式；</p>
+</li>
+<li><p>读写文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadWriteFileWithEncode</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String path, String content, String encoding)</span>  </span><br><span class="line">            <span class="keyword">throws</span> IOException </span>&#123;  </span><br><span class="line">        File file = <span class="keyword">new</span> File(path);  </span><br><span class="line">        file.delete();  </span><br><span class="line">        file.createNewFile();  </span><br><span class="line">        BufferedWriter writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(  </span><br><span class="line">                <span class="keyword">new</span> FileOutputStream(file), encoding));  </span><br><span class="line">        writer.write(content);  </span><br><span class="line">        writer.close();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">read</span><span class="params">(String path, String encoding)</span> <span class="keyword">throws</span> IOException </span>&#123;  </span><br><span class="line">        String content = <span class="string">""</span>;  </span><br><span class="line">        File file = <span class="keyword">new</span> File(path);  </span><br><span class="line">        BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(  </span><br><span class="line">                <span class="keyword">new</span> FileInputStream(file), encoding));  </span><br><span class="line">        String line = <span class="keyword">null</span>;  </span><br><span class="line">        <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;  </span><br><span class="line">            content += line + <span class="string">"\n"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        reader.close();  </span><br><span class="line">        <span class="keyword">return</span> content;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;  </span><br><span class="line">        String content = <span class="string">"看看会不会出现乱码"</span>;  </span><br><span class="line">        String path = <span class="string">"d:/xxx.txt"</span>;  </span><br><span class="line">        String encoding = <span class="string">"utf-8"</span>;  </span><br><span class="line">        ReadWriteFileWithEncode.write(path, content, encoding);  </span><br><span class="line">        System.out.println(ReadWriteFileWithEncode.read(path, encoding));  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>记得要指定编码去读写，否则Java会使用System.getProperty(“file.encoding”)中指定的编码来读写，可能会导致出现乱码。</p>
+</li>
+</ol>
+<h2 id="XML中的Encoding"><a href="#XML中的Encoding" class="headerlink" title="XML中的Encoding"></a>XML中的Encoding</h2><p>XML中，可以指定编码格式，如下 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br></pre></td></tr></table></figure>
+<p>你知道这里指定的编码和在保存文件时指定的编码，有什么关系吗？应该怎么用？</p>
+<ol>
+<li>encoding=”UTF-8”指定后，如果应用程序要读该xml文件，它会发现这个编码信息，从而会使用此处指定的编码格式来解释；</li>
+<li>文件保存时指定的编码格式 ，是指写到磁盘上时要转换成指定编码格式的二进制写入。</li>
+</ol>
+<p>那么如果encoding我设置的UTF-8，但是在保存时我又选择的GBK，此时会发生什么问题？对后续会有什么影响？</p>
+<h2 id="IDE中的编码格式"><a href="#IDE中的编码格式" class="headerlink" title="IDE中的编码格式"></a>IDE中的编码格式</h2><p>基本上所有的IDE中都可以指定编码格式，指定完之后，会有什么结果？</p>
+<p>假设，我把Eclipse的Project全部指定为UTF-8，下边说说以下这些动作会有什么影响：</p>
+<ol>
+<li>我新建一个文件，比如xml文件，那么它将保存为UTF-8格式，<font color="red" 且不带信息头<="" font="">；</font></li>
+<li>如果从项目外copy进来一个UTF-8格式的文件，那么用Eclipse打开后不会出现中文乱码（如果有中文的话）；</li>
+<li>如果从项目外copy进来一个非UTF-8格式的文件，比如GBK的，那么用Eclipse打开后会出现中文乱码（如果有中文的话）；</li>
+<li>接第3条，如果想把这个文件变成UTF-8格式 ，有什么办法？答案是没办法。。。。除非你找第三方的插件或者工具，或者手工一个一个改。。。</li>
+</ol>
+<p>因此，在IDE安装好之后，设定统一的编码格式非常重要。</p>
+<h2 id="Web中字符集和编码"><a href="#Web中字符集和编码" class="headerlink" title="Web中字符集和编码"></a>Web中字符集和编码</h2><p>以Jsp、Tomcat为例：</p>
+<h3 id="jsp中的pageEncoding"><a href="#jsp中的pageEncoding" class="headerlink" title="jsp中的pageEncoding"></a>jsp中的pageEncoding</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>pageEncoding：jsp页面的编码。</p>
+<p>JSP在服务 器上是要先被编译成Servlet的。pageEncoding=”UTF-8”的作用就是告诉JSP编译器在将JSP文件编译成Servlet时使用的 编码。通常，在JSP内部定义的字符串（直接在JSP中定义，而不是从浏览器提交的数据）出现乱码时，很多都是由于该参数设置错误引起的。例如，你的 JSP文件是以GBK为编码保存的，而在JSP中却指定pageEncoding=”UTF-8”，就会引起JSP内部定义的字符串为乱码。</p>
+<p>另外，该参数还有一个功能，就是在JSP中不指定contentType参数，也不使用response.setCharacterEncoding方法时，指定对服务器响应进行重新编码的编码。</p>
+<h3 id="jsp-html中的contentType的charset"><a href="#jsp-html中的contentType的charset" class="headerlink" title="jsp/html中的contentType的charset"></a>jsp/html中的contentType的charset</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>对服务器响应进行重新编码的编码。 在不使用response.setCharacterEncoding方法时，用该参数指定对服务器响应进行重新编码的编码。</p>
+<h3 id="jsp中的request-setCharacterEncoding-“UTF-8”"><a href="#jsp中的request-setCharacterEncoding-“UTF-8”" class="headerlink" title="jsp中的request.setCharacterEncoding(“UTF-8”)"></a>jsp中的request.setCharacterEncoding(“UTF-8”)</h3><p>客户端请求进行重新编码的编码。该方法用来指定对浏览器发送来的数据进行重新编码（或者称为解码）时，使用的编码。</p>
+<h3 id="jsp中的response-setCharacterEncoding-“UTF-8”"><a href="#jsp中的response-setCharacterEncoding-“UTF-8”" class="headerlink" title="jsp中的response.setCharacterEncoding(“UTF-8”)"></a>jsp中的response.setCharacterEncoding(“UTF-8”)</h3><p>对服务器响应进行重新编码的编码。 服务器在将数据发送到浏览器前，对数据进行重新编码时，使用的就是该编码。</p>
+<p>服务器端发送数据编码的优先级：response.setCharacterEncoding&gt;contentType&gt;pageEncoding。</p>
+<h3 id="Tomcat中的URIEncoding"><a href="#Tomcat中的URIEncoding" class="headerlink" title="Tomcat中的URIEncoding"></a>Tomcat中的URIEncoding</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">               connectionTimeout=&quot;20000&quot;</span><br><span class="line">               redirectPort=&quot;8443&quot; URIEncoding=&apos;UTF-8&apos; /&gt;</span><br></pre></td></tr></table></figure>
+<p>是不是很熟悉？经常这么设置吧。这段配置在server.xml中，这个地方的URIEncoding设置为UTF-8表示对请求中的参数用UTF-8来编码，比如请求的url如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8080/appname/index.jsp?cnname=&quot;中文&quot;</span><br></pre></td></tr></table></figure>
+<p>这时候cnname到tomcat中后会用UTF-8来编码；</p>
+<h3 id="Tomcat中的useBodyEncodingForURI"><a href="#Tomcat中的useBodyEncodingForURI" class="headerlink" title="Tomcat中的useBodyEncodingForURI"></a>Tomcat中的useBodyEncodingForURI</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">               connectionTimeout=&quot;20000&quot;</span><br><span class="line">               redirectPort=&quot;8443&quot; useBodyEncodingForURI=&apos;true&apos; /&gt;</span><br></pre></td></tr></table></figure>
+<p>useBodyEncodingForURI设置为true的意思是请求中的参数的编码方式使用请求体的编码方式。</p>
+<p>什么是请求体？</p>
+<p>比如，我在页面上有个表单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;http://127.0.0.1:8080&quot; method=&quot;post&quot;&gt;</span><br><span class="line">	&lt;input type=&quot;text&quot; name=&quot;user&quot; value=&quot;张三&quot;/&gt;</span><br><span class="line">	&lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>在提交该请求时，user=“张三”就是请求体。那么请求体的编码在哪设置的呢？有两个地方：</p>
+<ol>
+<li><p>在页面的content-type中（html的head标签内），如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>web.xml中；</p>
+</li>
+</ol>
+<h3 id="Tomcat中的CharacterEncodingFilter"><a href="#Tomcat中的CharacterEncodingFilter" class="headerlink" title="Tomcat中的CharacterEncodingFilter"></a>Tomcat中的CharacterEncodingFilter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">        &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;  </span><br><span class="line">        &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;  </span><br><span class="line">        &lt;init-param&gt;  </span><br><span class="line">            &lt;param-name&gt;encoding&lt;/param-name&gt;  </span><br><span class="line">            &lt;param-value&gt;UTF-8&lt;/param-value&gt;  </span><br><span class="line">        &lt;/init-param&gt;  </span><br><span class="line">        &lt;init-param&gt;  </span><br><span class="line">            &lt;!-- 是否强制设在request编码 --&gt;  </span><br><span class="line">            &lt;param-name&gt;forceEncoding&lt;/param-name&gt;  </span><br><span class="line">            &lt;param-value&gt;true&lt;/param-value&gt;  </span><br><span class="line">        &lt;/init-param&gt;  </span><br><span class="line">    &lt;/filter&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果forceEncoding为false（默认就是false），当content-type未设置charset，那么请求体用encoding设置的格式来编码；</li>
+<li>如果forceEncoding为true，那么无论content-type是否设置charset，，那么请求体中强制使用encoding设置的格式来编码。</li>
+</ol>
+<p><strong><font color="red">注意：URIEncoding和useBodyEncodingForURI不能同时设置。</font></strong></p>
+<h2 id="ActionScript3-0中的字符集和编码"><a href="#ActionScript3-0中的字符集和编码" class="headerlink" title="ActionScript3.0中的字符集和编码"></a>ActionScript3.0中的字符集和编码</h2><p>暂时没有找到官方对字符集和编码的说法，网上找的说是用的Unicode编码。我理解的应该是在AS3内部，和Java类似，比如定义一个字符串，它是以Unicode保存在内存中的。但是如果是要和外部交互，比如说要读取一个xml文件，那么它是如何编码的呢？也没有官方说法，网上说的是按照Unicode来解释（USC-2），自己写了一个例子，实际测试了一下，结果如下：</p>
+<p>看代码之前，先说AS中的一个小插曲，如下 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flash.system.System.useCodePage = true;</span><br></pre></td></tr></table></figure>
+<p>就这么一个属性，Flex中默认值是false，当然，你可以人为修改为true；</p>
+<ol>
+<li>false，默认值，按照网上的说法是按照USC-2编码来解释；</li>
+<li>true，使用操作系统的默认编码来解释；</li>
+</ol>
+<p>好了，咱们看下边代码，看看AS3是怎么编码的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">         function init(event:Event)&#123;</span><br><span class="line">	//flash.system.System.useCodePage = true;</span><br><span class="line">	readxml1();</span><br><span class="line">	readxml2();</span><br><span class="line">	readxml3();</span><br><span class="line">	readxml4();</span><br><span class="line">	readxml5();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function readxml1()&#123;</span><br><span class="line">	var urlLoader:URLLoader= new URLLoader();  </span><br><span class="line">	urlLoader.addEventListener(Event.COMPLETE,handleURLLoaderCompleted1);  </span><br><span class="line">	urlLoader.load(new URLRequest(&quot;conf/utf8bom.xml&quot;));  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function readxml2()&#123;</span><br><span class="line">	var urlLoader:URLLoader= new URLLoader();  </span><br><span class="line">	urlLoader.addEventListener(Event.COMPLETE,handleURLLoaderCompleted2);  </span><br><span class="line">	urlLoader.load(new URLRequest(&quot;conf/uft8.xml&quot;));  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function readxml3()&#123;</span><br><span class="line">	var urlLoader:URLLoader= new URLLoader();  </span><br><span class="line">	urlLoader.addEventListener(Event.COMPLETE,handleURLLoaderCompleted3);  </span><br><span class="line">	urlLoader.load(new URLRequest(&quot;conf/gbk.xml&quot;));  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function readxml4()&#123;</span><br><span class="line">	var urlLoader:URLLoader= new URLLoader();  </span><br><span class="line">	urlLoader.addEventListener(Event.COMPLETE,handleURLLoaderCompleted4);  </span><br><span class="line">	urlLoader.load(new URLRequest(&quot;conf/unicode_l.xml&quot;));  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function readxml5()&#123;</span><br><span class="line">	var urlLoader:URLLoader= new URLLoader();  </span><br><span class="line">	urlLoader.addEventListener(Event.COMPLETE,handleURLLoaderCompleted5);  </span><br><span class="line">	urlLoader.load(new URLRequest(&quot;conf/unicode_b.xml&quot;));  </span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line">function handleURLLoaderCompleted1(event:Event):void&#123;  </span><br><span class="line">		var loader:URLLoader=event.target as URLLoader;  </span><br><span class="line">		var xml = XML(loader.data);  </span><br><span class="line">		Alert.show(&quot;utf8bom=&quot;+xml); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function handleURLLoaderCompleted2(event:Event):void&#123;  </span><br><span class="line">	var loader:URLLoader=event.target as URLLoader;  </span><br><span class="line">	var xml = XML(loader.data);  </span><br><span class="line">	Alert.show(&quot;utf8=&quot;+xml); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function handleURLLoaderCompleted3(event:Event):void&#123;  </span><br><span class="line">	var loader:URLLoader=event.target as URLLoader;  </span><br><span class="line">	var xml = XML(loader.data);  </span><br><span class="line">	Alert.show(&quot;gbk=&quot;+xml); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function handleURLLoaderCompleted4(event:Event):void&#123;  </span><br><span class="line">	var loader:URLLoader=event.target as URLLoader;  </span><br><span class="line">	var xml = XML(loader.data);  </span><br><span class="line">	Alert.show(&quot;l=&quot;+xml); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function handleURLLoaderCompleted5(event:Event):void&#123;  </span><br><span class="line">	var loader:URLLoader=event.target as URLLoader;  </span><br><span class="line">	var xml = XML(loader.data);  </span><br><span class="line">	Alert.show(&quot;b=&quot;+xml); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一共5个xml文件（内容一样，且都有中文），编码格式分别为：UTF-8 with bom、UTF-8、GBK、Unicode little endian、Unicode big endian。你能判断出来在flash.system.System.useCodePage为true和false两种情况下哪些文件会被认定有乱码吗？</p>
+<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><h1 id="其它问题"><a href="#其它问题" class="headerlink" title="其它问题"></a>其它问题</h1><h2 id="当fusioncharts遇到Flex"><a href="#当fusioncharts遇到Flex" class="headerlink" title="当fusioncharts遇到Flex"></a>当fusioncharts遇到Flex</h2><p>说一个fusioncharts在Flex中的一个现象吧，不知道fusioncharts做的原因是啥，但确确实实这么做了。就是，在fusioncharts加载时和加载后，会修改flash.system.System.useCodePage值为true。如果你的编码格式未设置好，那么有可能会出现乱码。。。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/字符集/" rel="tag">#字符集</a>
+          
+            <a href="/tags/编码/" rel="tag">#编码</a>
+          
+            <a href="/tags/charactor-set/" rel="tag">#charactor set</a>
+          
+            <a href="/tags/encoding/" rel="tag">#encoding</a>
+          
+            <a href="/tags/UTF-8/" rel="tag">#UTF-8</a>
+          
+            <a href="/tags/Unicode/" rel="tag">#Unicode</a>
+          
+            <a href="/tags/ASCII/" rel="tag">#ASCII</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/19/arcigs-install/" rel="next" title="arcgis安装与地图发布">
+                <i class="fa fa-chevron-left"></i> arcgis安装与地图发布
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/01/charactor_set_and_encoding/"
+           data-title="字符集和编码格式的那些事儿" data-url="http://yoursite.com/2016/05/01/charactor_set_and_encoding/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="John Shieh" />
+          <p class="site-author-name" itemprop="name">John Shieh</p>
+          <p class="site-description motion-element" itemprop="description">海纳百川,有容乃大</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见字符集和编码"><span class="nav-number">1.</span> <span class="nav-text">常见字符集和编码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASCII码和扩展ASCII码"><span class="nav-number">1.1.</span> <span class="nav-text">ASCII码和扩展ASCII码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unicode"><span class="nav-number">1.2.</span> <span class="nav-text">Unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UTF-8编码"><span class="nav-number">1.3.</span> <span class="nav-text">UTF-8编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本介绍"><span class="nav-number">1.3.1.</span> <span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-8工作原理"><span class="nav-number">1.3.2.</span> <span class="nav-text">UTF-8工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-32编码"><span class="nav-number">1.3.3.</span> <span class="nav-text">UTF-32编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-16编码"><span class="nav-number">1.3.4.</span> <span class="nav-text">UTF-16编码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GB2312、GBK、GB18030"><span class="nav-number">1.4.</span> <span class="nav-text">GB2312、GBK、GB18030</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GB2312"><span class="nav-number">1.4.1.</span> <span class="nav-text">GB2312</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GB2312编码规则"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">GB2312编码规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GB2312编码表"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">GB2312编码表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBK"><span class="nav-number">1.4.2.</span> <span class="nav-text">GBK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GB18030"><span class="nav-number">1.4.3.</span> <span class="nav-text">GB18030</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#big5"><span class="nav-number">1.5.</span> <span class="nav-text">big5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISO-88591-1"><span class="nav-number">1.6.</span> <span class="nav-text">ISO-88591-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ANSI编码"><span class="nav-number">1.7.</span> <span class="nav-text">ANSI编码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编辑器是如何工作的"><span class="nav-number">2.</span> <span class="nav-text">编辑器是如何工作的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符集和编码的各种使用场景"><span class="nav-number">3.</span> <span class="nav-text">字符集和编码的各种使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA"><span class="nav-number">3.1.</span> <span class="nav-text">JAVA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML中的Encoding"><span class="nav-number">3.2.</span> <span class="nav-text">XML中的Encoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDE中的编码格式"><span class="nav-number">3.3.</span> <span class="nav-text">IDE中的编码格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web中字符集和编码"><span class="nav-number">3.4.</span> <span class="nav-text">Web中字符集和编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp中的pageEncoding"><span class="nav-number">3.4.1.</span> <span class="nav-text">jsp中的pageEncoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp-html中的contentType的charset"><span class="nav-number">3.4.2.</span> <span class="nav-text">jsp/html中的contentType的charset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp中的request-setCharacterEncoding-“UTF-8”"><span class="nav-number">3.4.3.</span> <span class="nav-text">jsp中的request.setCharacterEncoding(“UTF-8”)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp中的response-setCharacterEncoding-“UTF-8”"><span class="nav-number">3.4.4.</span> <span class="nav-text">jsp中的response.setCharacterEncoding(“UTF-8”)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat中的URIEncoding"><span class="nav-number">3.4.5.</span> <span class="nav-text">Tomcat中的URIEncoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat中的useBodyEncodingForURI"><span class="nav-number">3.4.6.</span> <span class="nav-text">Tomcat中的useBodyEncodingForURI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat中的CharacterEncodingFilter"><span class="nav-number">3.4.7.</span> <span class="nav-text">Tomcat中的CharacterEncodingFilter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActionScript3-0中的字符集和编码"><span class="nav-number">3.5.</span> <span class="nav-text">ActionScript3.0中的字符集和编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未完待续"><span class="nav-number">3.6.</span> <span class="nav-text">未完待续</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其它问题"><span class="nav-number">4.</span> <span class="nav-text">其它问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#当fusioncharts遇到Flex"><span class="nav-number">4.1.</span> <span class="nav-text">当fusioncharts遇到Flex</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Shieh</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xieyfgithubblog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
